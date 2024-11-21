@@ -21,42 +21,11 @@ public class CollectorController {
 
     @PostMapping("/sensors")
     public void processingSensors(@Valid @RequestBody SensorEvent event) {
-        switch (event.getClass().getSimpleName()) {
-            case "ClimateSensorEvent":
-                service.processingSensors((ClimateSensorEvent) event);
-                break;
-            case "LightSensorEvent":
-                service.processingSensors((LightSensorEvent) event);
-                break;
-            case "MotionSensorEvent":
-                service.processingSensors((MotionSensorEvent) event);
-                break;
-            case "SwitchSensorEvent":
-                service.processingSensors((SwitchSensorEvent) event);
-                break;
-            case "TemperatureSensorEvent":
-                service.processingSensors((TemperatureSensorEvent) event);
-                break;
-        }
-
+        service.processingSensors(event);
     }
 
     @PostMapping("/hubs")
     public void processingHubs(@Valid @RequestBody HubEvent event) {
-        switch (event.getClass().getSimpleName()) {
-            case "DeviceAddedEvent":
-                service.processingHub((DeviceAddedEvent) event);
-                break;
-            case "DeviceRemovedEvent":
-                service.processingHub((DeviceRemovedEvent) event);
-                break;
-            case "ScenarioAddedEvent":
-                service.processingHub((ScenarioAddedEvent) event);
-                break;
-            case "ScenarioRemovedEvent":
-                service.processingHub((ScenarioRemovedEvent) event);
-                break;
-        }
-
+        service.processingHub(event);
     }
 }
