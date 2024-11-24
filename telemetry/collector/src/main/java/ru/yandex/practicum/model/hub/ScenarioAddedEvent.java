@@ -16,10 +16,9 @@ import static ru.yandex.practicum.enums.HubEventType.SCENARIO_ADDED;
 @ToString
 public class ScenarioAddedEvent extends ScenarioEvent {
 
-
     @NonNull
     @Size(min = 1)
-    List<DeviceAction> actions;
+    List<DeviceActionEvent> actions;
     @NonNull
     @Size(min = 1)
     List<ScenarioCondition> conditions;
