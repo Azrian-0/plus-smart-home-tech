@@ -3,8 +3,8 @@ package ru.yandex.practicum.model.hub;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
-import ru.yandex.practicum.enums.DeviceType;
-import ru.yandex.practicum.enums.Operation;
+import ru.yandex.practicum.enums.ConditionType;
+import ru.yandex.practicum.enums.ConditionOperation;
 
 @Getter
 @Setter
@@ -12,7 +12,7 @@ import ru.yandex.practicum.enums.Operation;
 public class ScenarioCondition {
 
     private String sensorId;
-    private DeviceType type;
-    private Operation operation;
+    private ConditionType type;
+    private ConditionOperation operation;
     private int value;
 }
