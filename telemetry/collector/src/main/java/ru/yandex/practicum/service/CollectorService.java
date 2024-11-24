@@ -15,7 +15,6 @@ import org.springframework.stereotype.Service;
 import ru.yandex.practicum.kafka.telemetry.event.*;
 import ru.yandex.practicum.model.hub.*;
 import ru.yandex.practicum.model.sensor.*;
-import ru.yandex.practicum.serialize.AvroSerializer;
 
 import java.math.BigInteger;
 import java.util.List;
@@ -72,7 +71,6 @@ public class CollectorService {
         Properties config = new Properties();
         config.put(ProducerConfig.BOOTSTRAP_SERVERS_CONFIG, "localhost:9092");
         config.put(ProducerConfig.KEY_SERIALIZER_CLASS_CONFIG, VoidSerializer.class);
-        config.put(ProducerConfig.VALUE_SERIALIZER_CLASS_CONFIG, AvroSerializer.class);
         return config;
     }
 
@@ -168,4 +166,3 @@ public class CollectorService {
         }
     }
 }
-
