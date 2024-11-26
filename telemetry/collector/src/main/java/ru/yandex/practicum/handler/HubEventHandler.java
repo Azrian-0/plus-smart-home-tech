@@ -11,7 +11,7 @@ public abstract class HubEventHandler<T extends SpecificRecordBase> {
 
     private final KafkaConfig kafkaConfig;
     private final KafkaEventProducer kafkaEventProducer;
-    private final HubEventProto.PayloadCase eventType; // Тип события
+    private final HubEventProto.PayloadCase eventType;
     private static final String HUB_TOPIC = "telemetry.hubs.v1";
 
     public void handle(HubEventProto event) {
@@ -26,6 +26,6 @@ public abstract class HubEventHandler<T extends SpecificRecordBase> {
     }
 
     public HubEventProto.PayloadCase getEventType() {
-        return eventType; // Вернёт тип события
+        return eventType;
     }
 }
