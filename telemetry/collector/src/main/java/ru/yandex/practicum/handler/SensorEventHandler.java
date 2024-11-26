@@ -11,7 +11,7 @@ public abstract class SensorEventHandler<T extends SpecificRecordBase> {
 
     private final KafkaConfig kafkaConfig;
     private final KafkaEventProducer kafkaEventProducer;
-    private final SensorEventProto.PayloadCase eventType; // Тип события
+    private final SensorEventProto.PayloadCase eventType;
     private static final String SENSOR_TOPIC = "telemetry.sensors.v1";
 
     public void handle(SensorEventProto event) {
@@ -26,6 +26,6 @@ public abstract class SensorEventHandler<T extends SpecificRecordBase> {
     }
 
     public SensorEventProto.PayloadCase getEventType() {
-        return eventType; // Вернёт тип события
+        return eventType;
     }
 }
