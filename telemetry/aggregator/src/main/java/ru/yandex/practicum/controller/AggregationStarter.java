@@ -30,7 +30,7 @@ public class AggregationStarter {
             consumer.subscribe(List.of(config.getTopicIn()));
             Runtime.getRuntime().addShutdownHook(new Thread(consumer::wakeup));
             while (true) {
-                ConsumerRecords<String, SensorEventAvro> records = consumer.poll(Duration.ofMillis(5000));
+                ConsumerRecords<String, SensorEventAvro> records = consumer.poll(Duration.ofMillis(config.getConsumerPollDuration()));
                 if (records.isEmpty()) continue;
 
                 for (ConsumerRecord<String, SensorEventAvro> record : records) {
