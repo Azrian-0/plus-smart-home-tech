@@ -1,0 +1,16 @@
+spring:
+  kafka:
+    bootstrap-servers: localhost:9092
+    group:
+      id: aggregator
+    topic:
+      in: telemetry.sensors.v1
+      out: telemetry.snapshots.v1
+    producer:
+      key-serializer: org.apache.kafka.common.serialization.StringSerializer
+      value-serializer: ru.yandex.practicum.kafka.serialization.AvroSerializer
+    consumer:
+      key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+      value-deserializer: ru.yandex.practicum.kafka.serialization.SensorEventDeserializer
+      enable-auto-commit: false
+      poll-duration: 5000
