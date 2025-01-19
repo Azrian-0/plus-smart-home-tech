@@ -43,3 +43,23 @@ services:
       - POSTGRES_PASSWORD=analyzer
       - POSTGRES_USER=analyzer
       - POSTGRES_DB=analyzer
+    healthcheck:
+      test: pg_isready -q -d $$POSTGRES_DB -U $$POSTGRES_USER
+      timeout: 5s
+      interval: 5s
+      retries: 10
+
+  commerce-db:
+    image: postgres:16.1
+    container_name: postgres-commerce
+    ports:
+      - "5433:5432"
+    environment:
+      - POSTGRES_PASSWORD=commerce
+      - POSTGRES_USER=commerce
+      - POSTGRES_DB=commerce
+    healthcheck:
+      test: pg_isready -q -d $$POSTGRES_DB -U $$POSTGRES_USER
+      timeout: 5s
+      interval: 5s
+      retries: 10

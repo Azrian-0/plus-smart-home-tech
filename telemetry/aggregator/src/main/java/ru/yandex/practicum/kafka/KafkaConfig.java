@@ -18,28 +18,37 @@ import java.util.Properties;
 @Configuration
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public class KafkaConfig {
-    @Value("${spring.kafka.bootstrap-servers}")
+    @Value("${aggregator.kafka.bootstrap-servers}")
     String bootstrapServer;
-    @Value("${spring.kafka.group.id}")
+
+    @Value("${aggregator.kafka.group.id}")
     String groupId;
+
     @Getter
-    @Value("${spring.kafka.topic.in}")
+    @Value("${aggregator.kafka.topic.in}")
     String topicIn;
+
     @Getter
-    @Value("${spring.kafka.topic.out}")
+    @Value("${aggregator.kafka.topic.out}")
     String topicOut;
-    @Value("${spring.kafka.producer.key-serializer}")
+
+    @Value("${aggregator.kafka.producer.key-serializer}")
     Class<?> keySerializer;
-    @Value("${spring.kafka.producer.value-serializer}")
+
+    @Value("${aggregator.kafka.producer.value-serializer}")
     Class<?> valueSerializer;
-    @Value("${spring.kafka.consumer.key-deserializer}")
+
+    @Value("${aggregator.kafka.consumer.key-deserializer}")
     Class<?> keyDeserializer;
-    @Value("${spring.kafka.consumer.value-deserializer}")
+
+    @Value("${aggregator.kafka.consumer.value-deserializer}")
     Class<?> valueDeserializer;
-    @Value("${spring.kafka.consumer.enable-auto-commit}")
+
+    @Value("${aggregator.kafka.consumer.enable-auto-commit}")
     boolean enableAutoCommit;
+
     @Getter
-    @Value("${spring.kafka.consumer.poll-duration}")
+    @Value("${aggregator.kafka.consumer.poll-duration}")
     private long consumerPollDuration;
 
 
