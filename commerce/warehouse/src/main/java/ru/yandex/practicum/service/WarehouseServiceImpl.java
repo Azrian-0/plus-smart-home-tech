@@ -12,6 +12,7 @@ import ru.yandex.practicum.exception.NoSpecifiedProductInWarehouseException;
 import ru.yandex.practicum.exception.ProductInShoppingCartLowQuantityInWarehouse;
 import ru.yandex.practicum.exception.SpecifiedProductAlreadyInWarehouseException;
 
+import java.security.SecureRandom;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
@@ -23,6 +24,10 @@ import java.util.Optional;
 public class WarehouseServiceImpl implements WarehouseService {
     private final WarehouseRepository warehouseRepository;
     private final WarehouseMapper warehouseMapper;
+
+    private static final String[] ADDRESSES = {"ADDRESS_1", "ADDRESS_2"};
+    private static final String CURRENT_ADDRESS =
+            ADDRESSES[new SecureRandom().nextInt(ADDRESSES.length)];
 
     @Transactional
     @Override
@@ -75,13 +80,30 @@ public class WarehouseServiceImpl implements WarehouseService {
 
     @Override
     public AddressDto getWareHouseAddress() {
-        return AddressDto.builder()
-                .country("Россия")
-                .city("Москва")
-                .street("Пушкина")
-                .house("3")
-                .flat("6")
-                .build();
+        return parseAddress(CURRENT_ADDRESS);
+    }
+
+    private AddressDto parseAddress(String address) {
+        switch (address) {
+            case "ADDRESS_1":
+                return AddressDto.builder()
+                        .country("Россия")
+                        .city("Москва")
+                        .street("Пушкина")
+                        .house("3")
+                        .flat("6")
+                        .build();
+            case "ADDRESS_2":
+                return AddressDto.builder()
+                        .country("Россия")
+                        .city("Санкт-Петербург")
+                        .street("Колотушкина")
+                        .house("4")
+                        .flat("7")
+                        .build();
+            default:
+                throw new IllegalArgumentException("Неизвестный адрес: " + address);
+        }
     }
 
     private Optional<WarehouseProduct> getProduct(String productId) {

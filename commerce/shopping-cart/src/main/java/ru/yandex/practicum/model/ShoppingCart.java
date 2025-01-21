@@ -22,7 +22,7 @@ public class ShoppingCart {
     private String username;
 
     @Column(name = "cart_state", nullable = false)
-    private boolean cartState;
+    private boolean isActive;
 
     @ElementCollection
     @CollectionTable(name = "shopping_cart_products", joinColumns = @JoinColumn(name = "cart_id"))

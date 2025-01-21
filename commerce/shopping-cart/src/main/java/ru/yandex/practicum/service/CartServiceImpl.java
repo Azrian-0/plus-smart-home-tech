@@ -40,9 +40,12 @@ public class CartServiceImpl implements CartService {
             shoppingCart = ShoppingCart.builder()
                     .username(username)
                     .products(items)
-                    .cartState(true)
+                    .isActive(true)
                     .build();
         } else {
+            if (!shoppingCart.isActive()) {
+                throw new IllegalStateException("Корзина деактивирована, нельзя добавить товары");
+            }
             Map<String, Long> products = shoppingCart.getProducts();
             products.putAll(items);
         }
@@ -54,7 +57,7 @@ public class CartServiceImpl implements CartService {
     public void deleteUserCart(String username) {
         chechUser(username);
         ShoppingCart shoppingCart = getCart(username);
-        shoppingCart.setCartState(false);
+        shoppingCart.setActive(false);
         cartRepository.save(shoppingCart);
     }
 
@@ -64,7 +67,7 @@ public class CartServiceImpl implements CartService {
         chechUser(username);
         ShoppingCart shoppingCart = getCart(username);
         if (shoppingCart == null)
-            throw new NoProductsInShoppingCartException("Нет корзины у ползователя = " + username);
+            throw new NoProductsInShoppingCartException("Нет корзины у пользователя = " + username);
         shoppingCart.setProducts(items);
         return cartMapper.toShoppingCartDto(cartRepository.save(shoppingCart));
     }
@@ -75,7 +78,7 @@ public class CartServiceImpl implements CartService {
         chechUser(username);
         ShoppingCart shoppingCart = getCart(username);
         if (shoppingCart == null || !shoppingCart.getProducts().containsKey(request.getProductId()))
-            throw new NoProductsInShoppingCartException("Нет корзины у ползователя = " + username);
+            throw new NoProductsInShoppingCartException("Нет корзины у пользователя = " + username);
         shoppingCart.getProducts().put(request.getProductId(), request.getNewQuantity());
         return cartMapper.toShoppingCartDto(cartRepository.save(shoppingCart));
     }
