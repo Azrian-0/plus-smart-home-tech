@@ -15,7 +15,6 @@ public class ChangeProductQuantityRequest {
     @NotBlank
     private String productId;
 
-    @NotBlank
     @PositiveOrZero
     private Long newQuantity;
 }

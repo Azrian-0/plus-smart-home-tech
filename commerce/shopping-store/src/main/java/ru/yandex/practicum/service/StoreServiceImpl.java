@@ -76,6 +76,15 @@ public class StoreServiceImpl implements StoreService {
         return productMapper.productToProductDto(getProduct(productId));
     }
 
+    @Override
+    public List<ProductDto> getProductsInfo(List<String> productIds) {
+        List<Product> products = storeRepository.findAllById(productIds);
+        if (products.isEmpty()) {
+            throw new ProductNotFoundException("Не найдены продукты с указанными id");
+        }
+        return productMapper.mapListProducts(products);
+    }
+
     private Product getProduct(String productId) {
         Optional<Product> product = storeRepository.findById(productId);
         if (product.isEmpty())

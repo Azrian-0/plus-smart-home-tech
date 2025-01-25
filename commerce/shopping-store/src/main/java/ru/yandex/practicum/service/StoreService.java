@@ -19,4 +19,6 @@ public interface StoreService {
     boolean changeState(SetProductQuantityStateRequest request);
 
     ProductDto getProductInfo(String productId);
+
+    List<ProductDto> getProductsInfo(List<String> productIds);
 }

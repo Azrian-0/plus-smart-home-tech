@@ -4,6 +4,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import ru.yandex.practicum.exception.ProductNotFoundException;
 import ru.yandex.practicum.mapper.PaymentMapper;
 import ru.yandex.practicum.model.Payment;
 import ru.yandex.practicum.repository.PaymentRepository;
@@ -16,8 +17,10 @@ import ru.yandex.practicum.order.OrderClient;
 import ru.yandex.practicum.shoppingstore.ShoppingStoreClient;
 import ru.yandex.practicum.types.PaymentStatus;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
-import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 @Slf4j
@@ -63,9 +66,20 @@ public class PaymentServiceImpl implements PaymentService {
         Map<String, Long> products = orderDto.getProducts();
         if (products == null)
             throw new NotEnoughInfoInOrderToCalculateException("Нет товаров в заказе");
+
+        List<String> productIds = new ArrayList<>(products.keySet());
+
+        List<ProductDto> productDtos = storeClient.getProductsInfo(productIds);
+
+        Map<String, ProductDto> productInfoMap = productDtos.stream()
+                .collect(Collectors.toMap(ProductDto::getProductId, productDto -> productDto));
+
         return products.entrySet().stream()
                 .mapToDouble(product -> {
-                    ProductDto productDto = storeClient.getProductInfo(product.getKey());
+                    ProductDto productDto = productInfoMap.get(product.getKey());
+                    if (productDto == null) {
+                        throw new ProductNotFoundException("Продукт с ID " + product.getKey() + " не найден");
+                    }
                     return productDto.getPrice() * product.getValue();
                 })
                 .sum();
@@ -90,9 +104,7 @@ public class PaymentServiceImpl implements PaymentService {
     }
 
     private Payment getPayment(String paymentId) {
-        Optional<Payment> product = paymentRepository.findById(paymentId);
-        if (product.isEmpty())
-            throw new NoPaymentFoundException("Платежа с id = " + paymentId + " не существует");
-        return product.get();
+        return paymentRepository.findById(paymentId)
+                .orElseThrow(() -> new NoPaymentFoundException("Платежа с id = " + paymentId + " не существует"));
     }
 }

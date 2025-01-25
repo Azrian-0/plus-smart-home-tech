@@ -1,6 +1,7 @@
 package ru.yandex.practicum.dto;
 
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotEmpty;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -13,7 +14,7 @@ import java.util.Map;
 @AllArgsConstructor
 @Builder
 public class AssemblyProductsForOrderRequest {
-    @NotBlank
+    @NotEmpty
     private Map<String, Long> products;
 
     @NotBlank

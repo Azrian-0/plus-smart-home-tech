@@ -31,6 +31,12 @@ public class WarehouseServiceImpl implements WarehouseService {
     private final BookingRepository bookingRepository;
     private final BookingMapper bookingMapper;
 
+    private static final String[] ADDRESSES =
+            new String[]{"ADDRESS_1", "ADDRESS_2"};
+
+    private static final String CURRENT_ADDRESS =
+            ADDRESSES[Random.from(new SecureRandom()).nextInt(0, 1)];
+
     @Override
     public void createProductToWarehouse(NewProductInWarehouseRequest request) {
         Optional<WarehouseProduct> product = getProduct(request.getProductId());
@@ -152,12 +158,6 @@ public class WarehouseServiceImpl implements WarehouseService {
             throw new NoSpecifiedProductInWarehouseException("нет такого бронирования");
         return booking.get();
     }
-
-    private static final String[] ADDRESSES =
-            new String[]{"ADDRESS_1", "ADDRESS_2"};
-
-    private static final String CURRENT_ADDRESS =
-            ADDRESSES[Random.from(new SecureRandom()).nextInt(0, 1)];
 
     private Optional<WarehouseProduct> getProduct(String productId) {
         return warehouseRepository.findById(productId);

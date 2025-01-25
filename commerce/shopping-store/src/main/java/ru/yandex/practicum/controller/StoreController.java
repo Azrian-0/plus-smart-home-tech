@@ -63,4 +63,11 @@ public class StoreController {
         log.info("Получить сведения по товару, productId --> {}", productId);
         return storeService.getProductInfo(productId);
     }
+
+    @ResponseStatus(HttpStatus.OK)
+    @GetMapping("/products")
+    public List<ProductDto> getProductsInfo(@RequestParam List<String> productIds) {
+        log.info("Получить информацию о товарах, productIds --> {}", productIds);
+        return storeService.getProductsInfo(productIds);
+    }
 }
