@@ -45,7 +45,7 @@ public class StoreController {
 
     @ResponseStatus(HttpStatus.OK)
     @PostMapping("/removeProductFromStore")
-    public boolean removeProduct(@RequestParam String productId) {
+    public boolean removeProduct(@RequestBody String productId) {
         log.info("Удалить товар из ассортимента магазина, productId --> {}", productId);
         return storeService.removeProduct(productId);
     }
@@ -62,5 +62,12 @@ public class StoreController {
     public ProductDto getProductInfo(@PathVariable String productId) {
         log.info("Получить сведения по товару, productId --> {}", productId);
         return storeService.getProductInfo(productId);
+    }
+
+    @ResponseStatus(HttpStatus.OK)
+    @GetMapping("/products")
+    public List<ProductDto> getProductsInfo(@RequestParam List<String> productIds) {
+        log.info("Получить информацию о товарах, productIds --> {}", productIds);
+        return storeService.getProductsInfo(productIds);
     }
 }
